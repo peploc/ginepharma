@@ -1,1 +1,0 @@
-{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"lab-nodemailer.sessions"},{"v":2,"key":{"expires":1},"name":"expires_1","ns":"lab-nodemailer.sessions","expireAfterSeconds":0}],"uuid":"c83714e7fc544464b913e18e62559a9c"}
