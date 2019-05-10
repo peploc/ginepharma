@@ -10,6 +10,11 @@ export default class authService {
         })
     }
 
+    validationCheck = (firstname, lastname, number) => {
+        return this.service.post("/verification", {firstname, lastname, number})
+            .then(response => response.data)
+    }
+
     signup = (username, email, password) => {
         return this.service.post('/signup', { username, email, password })
             .then(response => response.data)

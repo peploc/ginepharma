@@ -8,40 +8,40 @@ export default class Signup extends Component {
     super(props);
 
     this.state = {
-      user: {
-        username: "",
+        username: this.props.name,
         email: "",
         password: "",
-      },      
-    };
+        error: ""
+      }
 
     this.service = new AuthService();
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    const username = this.state.user.username;
-    const password = this.state.user.password;
-    const email = this.state.user.email;
+    const username = this.state.username;
+    const password = this.state.password;
+    const email = this.state.email;
 
     this.service.signup(username, email, password)
     .then( response => {
-      console.log(response)
+      this.props.signed(this.state.username)
         this.setState({
             username: "", 
             password: "",
             email: ""
         });
-        // this.props.getUser(response)
     })
-    .catch( error => console.log(error) )
+    .catch( error => {
+        this.setState({ ...this.state, username: "", email: "", password: "", error: error.response.data.message})
+    })
   }
 
  
   handleChange = event => {
     const { name, value } = event.target;
  
-    this.setState({ user:{ ...this.state.user, [name]: value } });
+    this.setState({ ...this.state, [name]: value } );
     
   };
 
@@ -60,11 +60,10 @@ export default class Signup extends Component {
           
           <input type="submit" value="Signup" />
         </form>
-  
-        <p>Already have account? 
-            <Link to={"/login"}> Login</Link>
-        </p>
-  
+        {(() => {
+          if (this.state.error !== "") {
+            return (<p>{this.state.error}</p>)}
+        })()}
       </div>
     )
   }

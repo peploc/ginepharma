@@ -6,7 +6,7 @@ import { Link, Redirect } from 'react-router-dom';
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', logged: false, error: '' };
+        this.state = { username: this.props.name, password: '', logged: false, error: '' };
         this.service = new AuthService();
     }
 
@@ -16,7 +16,7 @@ export default class Login extends Component {
         const password = this.state.password;
         this.service.login(username, password)
              .then(response => {            
-                 this.setState({ username: "", password: "", logged: true }, ()=> this.props.setUser(response));
+                 this.setState({ username: "", password: "", logged: true }, () => this.props.logged(response));
              })
              .catch(error => {
                 console.log(error)
@@ -31,7 +31,6 @@ export default class Login extends Component {
     }
 
     render(){
-      if(this.state.logged) return <Redirect to={"/home"}/>
       return(
         
         <div>
@@ -40,13 +39,17 @@ export default class Login extends Component {
             <input type="text" name="username" value={this.state.username} onChange={ e => this.handleChange(e)}/>
 
             <label>Password:</label>
-            <textarea name="password" value={this.state.password} onChange={ e => this.handleChange(e)} />
+            <input type="password" name="password" value={this.state.password} onChange={ e => this.handleChange(e)} />
             
             <input type="submit" value="Login" />
           </form>
-          <p>Don't have account? 
-              <Link to={"/signup"}> Signup</Link>
+          <p>Don't have an account? 
+              <Link to={"/verification"}> Signup</Link>
           </p>
+          {(() => {
+          if (this.state.error !== "") {
+            return (<p>{this.state.error}</p>)}
+          })()}
         </div>
       )
     }
