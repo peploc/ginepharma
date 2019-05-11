@@ -34,6 +34,4 @@ export default class authService {
         return this.service.post('/logout', {})
             .then(response => response.data)
     }
-
-
 }
