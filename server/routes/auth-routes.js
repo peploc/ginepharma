@@ -49,7 +49,7 @@ authRoutes.post("/signup", (req, res, next) => {
       .status(400)
       .json({
         message:
-          "Please, make your password at least 6 characters long for security purposes."
+          "Please make your password at least 6 characters long for security purposes."
       });
     return;
   }
