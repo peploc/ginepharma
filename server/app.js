@@ -64,6 +64,9 @@ app.use('/api', index);
 const authRoutes = require('./routes/auth-routes');
 app.use('/api', authRoutes);
 
+const pharmaRoutes = require('./routes/pharma-routes');
+app.use('/api', pharmaRoutes);
+
 app.use((req, res) => { res.sendFile(`${__dirname}/public/index.html`); })
 
 module.exports = app;

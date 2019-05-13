@@ -8,8 +8,11 @@ const fs = require("fs").promises;
 
 const User = require("../models/User");
 
-let scrape = async (val) => {
-  const browser = await puppeteer.launch({ headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] });
+let scrape = async val => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
   const page = await browser.newPage();
 
   await page.goto(
@@ -28,8 +31,8 @@ let scrape = async (val) => {
       data = false;
     }
 
-    if (data) return data
-    else return false
+    if (data) return data;
+    else return false;
   });
 
   browser.close();
@@ -37,96 +40,122 @@ let scrape = async (val) => {
 };
 
 authRoutes.post("/signup", (req, res, next) => {
-  console.log("hola");
-  const { username, email, password } = req.body;
+  const username = req.body.username.trim();
+  const password = req.body.password.trim();
 
-  if (!email || !password) {
-    res.status(400).json({ message: "Provide email and password" });
-    return;
-  }
-  if (password.length < 5) {
+  if (!username || !password) {
     res
       .status(400)
-      .json({
-        message:
-          "Please make your password at least 6 characters long for security purposes."
-      });
+      .json({ message: "Provide your Name and your Medical License Number" });
+    return;
+  }
+  if (password.length !== 9) {
+    res.status(400).json({
+      message: "Insert a valid Medical License Number"
+    });
     return;
   }
 
-  User.findOne({ email }, (err, foundUser) => {
+  User.findOne({ username }, (err, foundUser) => {
     if (err) {
-      res.status(500).json({ message: "email check went bad." });
+      res.status(500).json({ message: "Something goes wrong" });
       return;
     }
     if (foundUser) {
-      res.status(400).json({ message: "email taken. Choose another one." });
+      res.status(400).json({ message: "You already have an account" });
       return;
     }
 
-    const salt = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(password, salt);
-    const aNewUser = new User({
-      username,
-      email,
-      password: hashPass
-    });
+  let scrapedNumber = 0;
+  let scrapedUserName = "";
 
-    aNewUser.save(err => {
-      if (err) {
-        res
-          .status(400)
-          .json({ message: "Saving user to database went wrong." });
+  (async () => {
+    let data = await scrape(password);
+
+    if (data) {
+      scrapedUserName = data[0]
+        .toLowerCase()
+        .trim()
+        .replace(/ /g, "")
+        .concat(data[1].toLowerCase().trim().replace(/ /g, ""));
+      scrapedPassword = data[2];
+
+      if (scrapedUserName === username) {
+        const salt = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(password, salt);
+        const aNewUser = new User({
+          username,
+          password: hashPass
+        });
+
+        aNewUser.save(err => {
+          if (err) {
+            res
+              .status(400)
+              .json({ message: "Saving user to database went wrong." });
+            return;
+          }
+          // Automatically log in user after sign up  .login() here is actually predefined passport method
+          req.login(aNewUser, err => {
+            if (err) {
+              res.status(500).json({ message: "Login after signup went bad." });
+              return;
+            }
+            // Send the user's information to the frontend. We can use also: res.status(200).json(req.user);
+            res.status(200).json(aNewUser);
+          });
+        });
+      } else {
+        res.status(500).json({ message: "Incorrect Data" });
         return;
       }
-      // Automatically log in user after sign up  .login() here is actually predefined passport method
-      req.login(aNewUser, err => {
-        if (err) {
-          res.status(500).json({ message: "Login after signup went bad." });
-          return;
-        }
-        // Send the user's information to the frontend. We can use also: res.status(200).json(req.user);
-        res.status(200).json(aNewUser);
-      });
-    });
-  });
+    } else {
+      res.status(500).json({ message: "Medical License Number not found" });
+      return;
+    }
+  })();
+  })
 });
 
-authRoutes.post("/verification", (req, res, next) => {
-  const number = req.body.number
-  const firstname = req.body.firstname.toLowerCase().trim()
-  const lastname = req.body.lastname.toLowerCase().trim()
-  if(!number|| !firstname || !lastname) {
-      res.status(500).json({ message: "Incorrect Data" }); return;
+/* authRoutes.post("/verification", (req, res, next) => {
+  const number = req.body.number;
+  const firstname = req.body.firstname.toLowerCase().trim();
+  const lastname = req.body.lastname.toLowerCase().trim();
+  if (!number || !firstname || !lastname) {
+    res.status(500).json({ message: "Incorrect Data" });
+    return;
   }
   let scrapedNumber = 0;
   let scrapedFirstName = "";
   let scrapedLastName = "";
 
   (async () => {
-      let data = await scrape(number)
+    let data = await scrape(number);
 
-      if (data) {
-        scrapedFirstName = data[0].toLowerCase().trim()
-        scrapedLastName = data[1].toLowerCase().trim()
-        scrapedNumber= data[2]
+    if (data) {
+      scrapedFirstName = data[0].toLowerCase().trim();
+      scrapedLastName = data[1].toLowerCase().trim();
+      scrapedNumber = data[2];
 
-        if (scrapedFirstName === firstname && scrapedLastName === lastname)
-        {
-            res.status(200).json({"firstname": firstname, "lastname": lastname, "number": number, "verified": true})
-        }
-        else
-        {
-            res.status(500).json({ message: "Incorrect Data" }); return;
-        }
+      if (scrapedFirstName === firstname && scrapedLastName === lastname) {
+        res
+          .status(200)
+          .json({
+            firstname: firstname,
+            lastname: lastname,
+            number: number,
+            verified: true
+          });
+      } else {
+        res.status(500).json({ message: "Incorrect Data" });
+        return;
+      }
+    } else {
+      res.status(500).json({ message: "Número de Colegiado not found" });
+      return;
     }
-    else {res
-        .status(500)
-        .json({ message: "Número de Colegiado not found" });
-        return;}
-
-  })()
-});
+  })();
+}); */
 
 authRoutes.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, theUser, failureDetails) => {
