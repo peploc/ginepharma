@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../services/auth-service";
 import { Link, Redirect } from "react-router-dom";
+import "../style/Login.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -41,32 +42,44 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <label>Complete Name: </label>
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={e => this.handleChange(e)}
-          />
-
-          <label>Medical License Number: </label>
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            onChange={e => this.handleChange(e)}
-          />
-
-          <input type="submit" value="Login" />
-        </form>
+      <div id="login">
+        <div className="row container valign-wrapper center-align">
+          <form className="col s12" onSubmit={this.handleFormSubmit}>
+            <div className="input-field">
+              <i className="material-icons prefix">account_circle</i>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={this.state.username}
+                onChange={e => this.handleChange(e)}
+              />
+              <label htmlFor="username">Complete Name</label>
+            </div>
+            <div className="input-field">
+              <i className="material-icons prefix">enhanced_encryption</i>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={e => this.handleChange(e)}
+              />
+              <label htmlFor="password">Medical License Number</label>
+            </div>
+            <input type="submit" value="Login" />
+          </form>
+        </div>
         {(() => {
           if (this.state.error !== "") {
             return (
-              <p>
+              <span
+                className="helper-text"
+                data-error="wrong"
+                data-success="right"
+              >
                 {this.state.error}
-              </p>
+              </span>
             );
           }
         })()}

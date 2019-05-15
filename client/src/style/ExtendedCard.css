@@ -1,0 +1,32 @@
+#ext-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #9575cdab;
+  margin: 0;
+  padding: 0;
+}
+
+#ext-nav img {
+  height: 4vh;
+}
+
+.extendedCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 2vh;
+}
+
+.extendedCard h5, .extendedCard p, .extendedCard ul {
+  margin-left: 3.2vw;
+}
+
+.list-alternatives h5 {
+  text-align: center;
+}
+
+#pharmaclass li {
+  font-size: 2.5vh;
+  margin-bottom: 2vh;
+}

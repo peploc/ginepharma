@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./ExtendedCard.css";
+import "../style/ExtendedCard.css";
 import Card from "./Card";
 import logo from "../logo.png";
 import PharmaServices from "../services/pharma-service";
@@ -45,7 +45,7 @@ export default class ExtendedCard extends Component {
             (this.stringNormalizer(el.Class1) === class1 ||
               this.stringNormalizer(el.Class2) === class2 ||
               this.stringNormalizer(el.Class3) === class3) &&
-            (el.Pregnancy_category === "A" || el.Lactation_category === "0") &&
+            (el.Pregnancy_category === "A" || el.Lactation_category === "L1") &&
             el.Name !== this.state.data.Name
           ) {
             return el;
@@ -80,7 +80,7 @@ export default class ExtendedCard extends Component {
                 this.stringNormalizer(el.Class2) === class2 ||
                 this.stringNormalizer(el.Class3) === class3) &&
               (el.Pregnancy_category === "A" ||
-                el.Lactation_category === "0") &&
+                el.Lactation_category === "L1") &&
               el.Name !== this.state.data.Name
             ) {
               return el;
@@ -101,35 +101,96 @@ export default class ExtendedCard extends Component {
   render() {
     let data = this.state.data;
     if (this.state.alternatives.length === 0) {
-      return <h3>Loading</h3>;
+      return (
+        <div className="progress">
+          <div className="indeterminate deep-purple lighten-2" />
+        </div>
+      );
     } else {
       return (
-        <React.Fragment>
-          <nav>
+        <div className="row">
+          <nav id="ext-nav" className="col s12">
             {" "}<Link to="/app">
-              {" "}<img src={logo} alt="logo" />
+              <div className="valign-wrapper"><img src={logo} alt="logo" /> <p>  Back to Home</p></div>
             </Link>{" "}
-            <button onClick={() => this.props.logout()}>Logout</button>
           </nav>
-          <div className="extendedCard">
-            <h3>
-              {data.Name}
-            </h3>
-
-            {this.state.alternatives
-              .filter(el => el.Lactation_category === "0")
-              .map((dat, idx) => {
-                if (idx > 5) return;
-                return <Card key={idx} {...dat} />;
-              })}
-            {this.state.alternatives
-              .filter(el => el.Pregnancy_category === "A")
-              .map((dat, idx) => {
-                if (idx > 5) return;
-                return <Card key={idx} {...dat} />;
-              })}
+          <div>
+            <div className="extendedCard col s12 l6">
+              <h2>
+                {data.Name}
+              </h2>
+              <h5>
+                Pregnancy Risk Class:{" "}
+                <Link to="/risktable">{data.Pregnancy_category}</Link>
+              </h5>
+              <p>
+                <a
+                  href={`${data.GURL}+pregnancy+nlm.nih`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  More Resources
+                </a>
+              </p>
+              <h5>
+                Lactation Risk Class:{" "}
+                <Link to="/risktable">{data.Lactation_category}</Link>
+              </h5>
+              <p>
+                <a
+                  href={`${data.GURL}+breastfeeding+nlm.nih`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  More Resources
+                </a>
+              </p>
+              <ul id="pharmaclass">
+                <li className="valign-wrapper">
+                  <i className="small material-icons">chevron_right</i>{data.Class1}
+                </li>
+                {data.Class2 === "x"
+                  ? null
+                  : <li className="valign-wrapper">
+                      <i className="small material-icons">chevron_right</i>{data.Class2}
+                    </li>}
+                {data.Class3 === "x"
+                  ? null
+                  : <li className="valign-wrapper">
+                      <i className="small material-icons">chevron_right</i>{data.Class3}
+                    </li>}
+              </ul>
+            </div>
+            <div className="ext-card-list">
+              <div className="list-alternatives lactation col s12 l3">
+                <h5>Lactation Safe Alternatives</h5>
+                {this.state.alternatives
+                  .filter(
+                    el =>
+                      el.Lactation_category === "L1" &&
+                      el.Name !== this.state.data.Name
+                  )
+                  .map((dat, idx) => {
+                    if (idx > 5) return;
+                    return <Card key={idx} {...dat} />;
+                  })}
+              </div>
+              <div className="list-alternatives pregnancy col s12 l3">
+                <h5>Pregnancy Safe Alternatives</h5>
+                {this.state.alternatives
+                  .filter(
+                    el =>
+                      el.Pregnancy_category === "A" &&
+                      el.Name !== this.state.data.Name
+                  )
+                  .map((dat, idx) => {
+                    if (idx > 5) return;
+                    return <Card key={idx} {...dat} />;
+                  })}
+              </div>
+            </div>
           </div>
-        </React.Fragment>
+        </div>
       );
     }
   }
