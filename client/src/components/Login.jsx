@@ -42,7 +42,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div id="login">
+      <div id="login" className={`${this.props.from ? null : "page"}`}>
         <div className="row container valign-wrapper center-align">
           <form className="col s12" onSubmit={this.handleFormSubmit}>
             <div className="input-field">
@@ -67,30 +67,30 @@ export default class Login extends Component {
               />
               <label htmlFor="password">Medical License Number</label>
             </div>
-            <input type="submit" value="Login" />
-          </form>
-        </div>
+            <input className="btn-flat" type="submit" value="Login" />
         {(() => {
           if (this.state.error !== "") {
             return (
-              <span
-                className="helper-text"
-                data-error="wrong"
-                data-success="right"
-              >
+              <p id="error-message">
                 {this.state.error}
-              </span>
+              </p>
             );
           }
         })()}
+          </form>
+        </div>
         {!this.props.from
           ? <p>
-              Don't have an account?
-              <Link to={"/signup"}>Signup</Link>
+              Don't you have an account?
+              <Link className="btn-flat" to={"/signup"}>
+                Signup
+              </Link>
             </p>
           : <p>
-              Don't have an account?
-              <button onClick={this.props.switchFunction}>Signup</button>
+              Don't you have an account?
+              <button className="btn-flat" onClick={this.props.switchFunction}>
+                Signup
+              </button>
             </p>}
       </div>
     );

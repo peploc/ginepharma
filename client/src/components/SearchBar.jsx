@@ -36,7 +36,7 @@ export default class SearchBar extends Component {
   render() {
     return (
       <React.Fragment>
-        <nav id="search-nav" className="hide-on-med-and-down z-depth-4 white">
+        <nav id="search-nav" className="hide-on-med-and-down z-depth-3 white">
           <div id="dex-nav" className="nav-wrapper valign-wrapper">
             <img src={logo} className="brand-logo left" />
             <form id="dex-form" className="valign-wrapper">

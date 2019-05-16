@@ -2,9 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #9575cdab;
-  margin: 0;
+  margin-bottom: 3vh;
   padding: 0;
+}
+
+#ext-nav p {
+  color: black;
+  margin-left: 1vw;
 }
 
 #ext-nav img {
@@ -15,11 +19,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-top: 2vh;
+
 }
 
 .extendedCard h5, .extendedCard p, .extendedCard ul {
   margin-left: 3.2vw;
+}
+
+.extendedCard h2 {
+  text-transform: capitalize;
+  font-size: 6vh;
+  margin-bottom: 2vw;
 }
 
 .list-alternatives h5 {

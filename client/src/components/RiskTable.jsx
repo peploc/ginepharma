@@ -1,20 +1,24 @@
 import React, { Component } from "react";
-import breastImage from "../images/Breastfeeding-icon-med.svg.png";
-import pregnancyImage from "../images/pregnancy-logo.png";
+import { Link } from "react-router-dom";
+import logo from "../logo.png";
+import breastImage from "../images/lact/lactancy.svg";
+import pregnancyImage from "../images/preg/pregnancy2.svg";
+import "../style/RiskTable.css"
 
 export default class RiskTable extends Component {
   render() {
     return (
       <div className="container">
-        <h3>
-          <img
-            className="circle materialboxed"
-            style={{ width: "40px", display: "inline" }}
-            src={breastImage}
-            alt="breastfeeding"
-          />{" "}
-          Lactation
-        </h3>
+        <nav id="ext-nav" className="col s12 white z-depth-3">
+          {" "}<Link to="/app">
+            <div className="valign-wrapper">
+              <img src={logo} alt="logo" /> <p> Back to Home</p>
+            </div>
+          </Link>{" "}
+        </nav>
+        <div className="headTable">
+          <img src={breastImage} alt="breastfeeding" /> <p>Lactation</p>
+        </div>
         <table>
           <thead>
             <tr>
@@ -51,16 +55,9 @@ export default class RiskTable extends Component {
             </tr>
           </tbody>
         </table>
-
-        <h3>
-          <img
-            className="circle materialboxed"
-            style={{ width: "40px", display: "inline" }}
-            src={pregnancyImage}
-            alt="pregnancy"
-          />{" "}
-          Pregnancy
-        </h3>
+        <div className="headTable">
+          <img src={pregnancyImage} alt="pregnancy" /> <p>Pregnancy</p>
+        </div>
         <table>
           <thead>
             <tr>

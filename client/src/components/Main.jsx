@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Services from "../services/pharma-service";
 import SearchBar from "./SearchBar";
 import Card from "./Card";
+import Preloader from "./Preloader";
+import "../style/Main.css";
 
 export default class Home extends Component {
   constructor() {
@@ -48,23 +50,22 @@ export default class Home extends Component {
   }
 
   render() {
+    window.scrollTo(0, 0);
     if (this.state.dataCopy.length === 0) {
-      return (
-        <div className="progress">
-          <div className="indeterminate deep-purple lighten-2" />
-        </div>
-      );
+      return <Preloader />
     } else {
       return (
-        <div className="row">
+        <div id="main" className="row">
           <SearchBar
             search={obj => this.search(obj)}
             logout={() => this.props.logout()}
           />
-          {this.state.dataShowed.map((dat, idx) => {
-            if (idx > 59) return;
-            return <Card key={idx} {...dat} main={true} />;
-          })}
+          <div className="col s12 cards-container">
+            {this.state.dataShowed.map((dat, idx) => {
+              if (idx > 59) return;
+              return <Card key={idx} {...dat} main={true} />;
+            })}
+          </div>
         </div>
       );
     }

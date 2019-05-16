@@ -34,52 +34,39 @@ export default class Card extends Component {
 
   render() {
     return (
-      <div className={this.props.main ? "card horizontal col s12 m6 l4" : "card horizontal"} style={{ height: "15vh" }}>
-        <div className="card-image">
-          <div className="valign-wrapper">
-            <img
-              src={this.color[this.props.Pregnancy_category]}
-              style={{ height: "5vh" }}
-            />
-            <p>
-              {this.props.Pregnancy_category}
-            </p>
-          </div>
-          <div className="valign-wrapper">
-            {" "}<img
-              src={this.color[this.props.Lactation_category]}
-              style={{ height: "5vh" }}
-            />
-            <p>{this.props.Lactation_category}</p>
-          </div>
-        </div>
-        <div className="card-stacked">
-          <div className="card-action">
-            <Link to={`/one/${this.props._id}`}>
-              <h6 className="header">
-                {this.props.Name}
-              </h6>
-            </Link>
-          </div>
+      <Link to={`/one/${this.props._id}`}>
+        <div
+          className={`pharmacard ${this.props.main ? "main" : null}`}
+        >
+          <h6 className="card-header trunk-title">
+            {this.props.Name}
+          </h6>
           <div className="card-content">
-            <ul>
-              <li>
-                {this.props.Class1}
-              </li>
-              {this.props.Class2 === "x"
-                ? null
-                : <li>
-                    {this.props.Class2}
-                  </li>}
-              {this.props.Class3 === "x"
-                ? null
-                : <li>
-                    {this.props.Class3}
-                  </li>}
-            </ul>
+            <div className="card-image">
+              <img src={this.color[this.props.Pregnancy_category]} />{" "}
+              <img src={this.color[this.props.Lactation_category]} />
+            </div>
+
+            <div className="card-list">
+              <ul>
+                <li className="trunk-li">
+                  {this.props.Class1}
+                </li>
+                {this.props.Class2 === "x"
+                  ? null
+                  : <li className="trunk-li">
+                      {this.props.Class2}
+                    </li>}
+                {this.props.Class3 === "x"
+                  ? null
+                  : <li className="trunk-li">
+                      {this.props.Class3}
+                    </li>}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }

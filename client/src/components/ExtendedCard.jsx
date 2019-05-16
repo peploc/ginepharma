@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../style/ExtendedCard.css";
 import Card from "./Card";
 import logo from "../logo.png";
+import Preloader from "./Preloader";
 import PharmaServices from "../services/pharma-service";
 
 export default class ExtendedCard extends Component {
@@ -51,6 +52,7 @@ export default class ExtendedCard extends Component {
             return el;
           }
         });
+        window.scrollTo(0, 0);
         this.setState({
           ...this.state,
           alternatives: alternatives,
@@ -101,17 +103,15 @@ export default class ExtendedCard extends Component {
   render() {
     let data = this.state.data;
     if (this.state.alternatives.length === 0) {
-      return (
-        <div className="progress">
-          <div className="indeterminate deep-purple lighten-2" />
-        </div>
-      );
+      return <Preloader />;
     } else {
       return (
         <div className="row">
-          <nav id="ext-nav" className="col s12">
+          <nav id="ext-nav" className="col s12 white z-depth-3">
             {" "}<Link to="/app">
-              <div className="valign-wrapper"><img src={logo} alt="logo" /> <p>  Back to Home</p></div>
+              <div className="valign-wrapper">
+                <img src={logo} alt="logo" /> <p> Back to Home</p>
+              </div>
             </Link>{" "}
           </nav>
           <div>
@@ -147,17 +147,20 @@ export default class ExtendedCard extends Component {
               </p>
               <ul id="pharmaclass">
                 <li className="valign-wrapper">
-                  <i className="small material-icons">chevron_right</i>{data.Class1}
+                  <i className="small material-icons">chevron_right</i>
+                  {data.Class1}
                 </li>
                 {data.Class2 === "x"
                   ? null
                   : <li className="valign-wrapper">
-                      <i className="small material-icons">chevron_right</i>{data.Class2}
+                      <i className="small material-icons">chevron_right</i>
+                      {data.Class2}
                     </li>}
                 {data.Class3 === "x"
                   ? null
                   : <li className="valign-wrapper">
-                      <i className="small material-icons">chevron_right</i>{data.Class3}
+                      <i className="small material-icons">chevron_right</i>
+                      {data.Class3}
                     </li>}
               </ul>
             </div>

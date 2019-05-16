@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import Main from "./components/Main";
 import ExtendedCard from "./components/ExtendedCard";
 import RiskTable from "./components/RiskTable";
+import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
 // Routing & DOM
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -115,6 +116,7 @@ export default class App extends React.Component {
 
           <Route component={NotFound} />
         </Switch>
+        <Footer />
       </div>
     );
   }

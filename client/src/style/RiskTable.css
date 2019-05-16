@@ -1,0 +1,23 @@
+#ext-nav img {
+  height: 4vh;
+}
+.container {
+  margin-bottom: 4vh;
+}
+
+.headTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4vh;
+}
+
+.headTable img {
+  height: 5vh;
+}
+
+.headTable p {
+  font-size: 4vh;
+  margin: 0 2vw;
+  font-weight: 600;
+}

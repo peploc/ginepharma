@@ -1,31 +1,52 @@
-  /* label color */
-  .input-field label {
-    color: #000;
+   /* label color */
+   .input-field label {
+    color: #eee;
   }
+
+  .input-field {
+    background: transparent;
+    color: #eee;
+  }
+
   /* label focus color */
   #username:focus + label,
   #password:focus + label {
-    color: #9575cd;
+    color:#222;
   }
   /* label underline focus color */
   #username:focus,
   #password:focus {
-    border-bottom: 1px solid #9575cd;
-    box-shadow: 0 1px 0 0 #000;
+    border-bottom: 1px solid #555;
+    box-shadow: 0 1px 2px 0 #222;
   }
 
   /* icon prefix focus color */
   .input-field .prefix.active {
-    color:  #9575cd;
+    color:  #222;
   }
 
   #signup {
     display: flex;
+    height: 85vh;
+    padding-top: 10vh;
     flex-direction: column;
     align-items: center;
-    margin-top: 10%;
+    justify-content: space-around;
   }
 
-  #username, #password {
-    margin-bottom: 5vh;
+  #signup.page{
+    background-image: url("../images/bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
   }
+
+  #signup>.row.container {
+    margin-bottom: -200px;
+    margin-top: -100px;
+  }
+
+  /* #error-message {
+    margin-top: 4rem;
+    margin-bottom: -8rem;
+  } */
+  

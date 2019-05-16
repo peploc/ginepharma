@@ -6,10 +6,10 @@ import "../style/Navbar.css";
 export default class Navbar extends Component {
   render() {
     return (
-      <nav className="white" role="navigation">
+      <nav className="hide-on-med-and-down white" role="navigation">
         <div className="nav-wrapper">
             <div id="logo-container" className="brand-logo">
-              <img src={logo} alt="logo" /> <span className="hide-on-med-and-down">GinePharma</span>
+              <img src={logo} alt="logo" /> <span>GinePharma</span>
             </div>
           <ul className="right hide-on-med-and-down">
             <li>
