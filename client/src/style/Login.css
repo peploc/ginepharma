@@ -12,7 +12,7 @@
   /* label focus color */
   #username:focus + label,
   #password:focus + label {
-    color:#222;
+    color:#fff;
   }
   /* label underline focus color */
   #username:focus,
@@ -23,7 +23,7 @@
 
   /* icon prefix focus color */
   .input-field .prefix.active {
-    color:  #222;
+    color:  #fff;
   }
 
   #login {

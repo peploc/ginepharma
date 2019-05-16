@@ -11,7 +11,7 @@
   /* label focus color */
   #username:focus + label,
   #password:focus + label {
-    color:#222;
+    color:#fff;
   }
   /* label underline focus color */
   #username:focus,
@@ -22,7 +22,7 @@
 
   /* icon prefix focus color */
   .input-field .prefix.active {
-    color:  #222;
+    color:  #fff;
   }
 
   #signup {
@@ -45,8 +45,4 @@
     margin-top: -100px;
   }
 
-  /* #error-message {
-    margin-top: 4rem;
-    margin-bottom: -8rem;
-  } */
   
